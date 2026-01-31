@@ -1,18 +1,18 @@
 import asyncio
 
-from modules.punishment_reports.listener import register_punishment_listener
-from modules.punishment_reports.storage import init_db
-from modules.punishment_reports.scheduler import report_scheduler
-from modules.punishment_reports.commands import register_punishment_commands
+from .listener import register_punishment_listener
+from .commands import register_punishment_commands
+from .scheduler import report_scheduler
+from .storage import init_db
 
 
 def setup_punishment_reports(dp, bot):
-    # Инициализация БД
+    # инициализация БД модуля
     init_db()
 
-    # Регистрация listener'а и команд
+    # регистрация listener и команд
     register_punishment_listener(dp)
     register_punishment_commands(dp)
 
-    # Запуск фонового scheduler'а
+    # запуск планировщика
     asyncio.create_task(report_scheduler(bot))

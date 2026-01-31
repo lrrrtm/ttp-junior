@@ -6,7 +6,7 @@ from aiogram.filters import Command
 from aiogram.types import Message
 
 from config import PUNISHMENT_REPORTS_ENABLED
-from modules.punishment_reports.report import send_daily_reports
+from .report import send_daily_reports  # ← ОТНОСИТЕЛЬНЫЙ ИМПОРТ
 
 
 MOSCOW_TZ = ZoneInfo("Europe/Moscow")
@@ -19,9 +19,12 @@ async def report_today_command(message: Message):
     if not PUNISHMENT_REPORTS_ENABLED:
         return
 
-    # Можно ограничить только администраторами чата
+    # Ограничение: только админы
     if message.chat.type in ("group", "supergroup"):
-        member = await message.bot.get_chat_member(message.chat.id, message.from_user.id)
+        member = await message.bot.get_chat_member(
+            message.chat.id,
+            message.from_user.id
+        )
         if member.status not in ("administrator", "creator"):
             return
 
@@ -30,9 +33,6 @@ async def report_today_command(message: Message):
 
 
 def register_punishment_commands(dp):
-    """
-    Подключаем router с командами к Dispatcher (aiogram 3)
-    """
     if not PUNISHMENT_REPORTS_ENABLED:
         return
 

@@ -7,8 +7,8 @@ from config import (
     PUNISHMENT_SOURCE_TOPIC_ID,
 )
 
-from modules.punishment_reports.parser import parse_punishment_message
-from modules.punishment_reports.storage import save_punishment
+from .storage import save_punishment
+from .parser import parse_punishment_message
 
 
 # usernames ботов, которые присылают наказания (БЕЗ @)
